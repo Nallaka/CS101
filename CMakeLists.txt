@@ -4,4 +4,4 @@ project(cs101)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(cs101
-        "labs/l1-io and streams/text-analyzer-and-modifier.cpp")
+        "labs/l2-classes/triple.cpp" labs/l2-classes/main.cpp)
