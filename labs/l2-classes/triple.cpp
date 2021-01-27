@@ -76,8 +76,8 @@ Triple::Triple(string s) {
 // use to_string(int) which returns the int as a string
 // usage: string s = t.toString();
 string Triple::toString() {
-
-   return "(" + to_string(a) + "," + to_string(b) + "," + to_string(c) + ")";
+    string out = "(" + to_string(this->a) + "," + to_string(this->b) + "," + to_string(this->c) + ")";
+   return out;
 }
 
 // change the vector to equal the string representation: "(a,b,c)"
@@ -192,7 +192,7 @@ bool Triple::operator!=(Triple t) {
 // use toString()
 // usage: cout << t << endl;
 ostream &operator<<(ostream &os, Triple t) {
-    cout << t.toString();
+    os << t.toString();
    return os;
 }
 
