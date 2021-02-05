@@ -45,13 +45,13 @@ int main(int argc, char* argv[]) {
     }
 
     string line;
-    int entires = 0;
+    int entries = 0;
     while (getline(ifstream1, line)) {
         stringstream string_stream(line);
-        entires++;
+        entries++;
     }
 
-    string data[entires+1][columns];
+    string data[entries+1][columns];
 
     ifstream1.clear();
     ifstream1.seekg(0,std::ios::beg);
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
         string columnName;
         getline(columnNameStream, columnName, ',');
         data[0][i] = columnName;
-        columns++;
+        i++;
     }
 
     string temp;
@@ -80,7 +80,8 @@ int main(int argc, char* argv[]) {
             string new_sub_string;
             getline(stringstream1, new_sub_string, ',');
             data[entry][field] = new_sub_string;
+            field++;
         }
+        entry++;
     }
-
 }
