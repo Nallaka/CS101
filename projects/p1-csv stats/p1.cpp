@@ -3,7 +3,6 @@
 //
 #include <string>
 #include <iostream>
-#include <sstream>
 #include <fstream>
 #include <iomanip>
 #include <math.h>
@@ -105,6 +104,7 @@ int main(int argc, char* argv[]) {
         //quit
         if (command == "quit") {
             quit = true;
+            continue;
         }
 
         //help
@@ -148,9 +148,11 @@ int main(int argc, char* argv[]) {
             int minC = 0;
             int minE = 0;
             string out = "N/A";
+            bool colFound = false;
             commandStream >> quoted(col);
             for (int c = 0; c < columns; c++) {
                 if (data[0][c] == col) {
+                    colFound = true;
                     for (int e = 1; e < entries; e++) {
                         if (!data[e][c].empty()) {
                             if (stod(data[e][c]) < min) {
@@ -163,12 +165,19 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            if (minE != 0) {
-                out = data[minE][minC];
+            if (colFound) {
+                if (minE != 0) {
+                    out = data[minE][minC];
+                }
+
+                cout << "The min for col \"" << col << "\" = " << out << endl << endl;
+                continue;
+            } else {
+                cout << "Invalid column \"" << col << "\"" << endl << endl;
+                continue;
             }
-            cout << "The min for col \"" << col << "\" = " << out << endl << endl;
-            continue;
         }
+
 
         //max
         if (command == "max") {
@@ -177,9 +186,11 @@ int main(int argc, char* argv[]) {
             int maxC = 0;
             int maxE = 0;
             string out = "N/A";
+            bool colFound = false;
             commandStream >> quoted(col);
             for (int c = 0; c < columns; c++) {
                 if (data[0][c] == col) {
+                    colFound = true;
                     for (int e = 1; e < entries; e++) {
                         if (!data[e][c].empty()) {
                             if (stod(data[e][c]) > max) {
@@ -192,12 +203,17 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            if (maxE != 0) {
-                out = data[maxE][maxC];
-            }
+            if (colFound) {
+                if (maxE != 0) {
+                    out = data[maxE][maxC];
+                }
 
-            cout << "The max for col \"" << col << "\" = " << out << endl << endl;
-            continue;
+                cout << "The max for col \"" << col << "\" = " << out << endl << endl;
+                continue;
+            } else {
+                cout << "Invalid column \"" << col << "\"" << endl << endl;
+                continue;
+            }
         }
 
         //avg
@@ -232,6 +248,74 @@ int main(int argc, char* argv[]) {
                 cout << "Invalid column \"" << col << "\"" << endl << endl;
                 continue;
             }
+        }
+
+        if (command == "search") {
+            string col;
+            string search;
+            bool colFound = false;
+            commandStream >> quoted(col);
+            commandStream >> quoted(search);
+
+            if (col == "*") {
+                bool entryExists = false;
+
+                for (int e = 1; e < entries; e++) {
+                    for (int c2 = 0; c2 < columns; c2++) {
+                       if (data[e][c2] == search) {
+                           if (!entryExists) {
+                               for (int c = 0; c < columns; c++) {
+                                   cout << setw(colWidth) << data[0][c];
+                               }
+                               cout << endl;
+                               entryExists = true;
+                           }
+                           for (int c3 = 0; c3 < columns; c3++) {
+                               cout << setw(colWidth) << data[e][c3];
+                           }
+                           cout << endl;
+                       }
+                    }
+                }
+                colFound = true;
+
+                if (!entryExists) {
+                    cout << "No results" << endl;
+                }
+            } else if (col != "*") {
+                bool entryExists = false;
+                for (int c = 0; c < columns; c++) {
+                    if (data[0][c] == col) {
+                        colFound = true;
+                        for (int e = 1; e < entries; e++) {
+                            if (data[e][c] == search) {
+                                if (!entryExists) {
+                                    for (int c3 = 0; c3 < columns; c3++) {
+                                        cout << setw(colWidth) << data[0][c3];
+                                    }
+                                    cout << endl;
+                                    entryExists = true;
+                                }
+                                for (int c2 = 0; c2 < columns; c2++) {
+                                    cout << setw(colWidth) << data[e][c2];
+                                }
+                                cout << endl;
+                            }
+                        }
+                    }
+                }
+                if (!entryExists) {
+                    cout << "No results" << endl;
+                }
+            }
+
+            if (!colFound) {
+                cout << "Invalid column \"" << col << "\"" << endl << endl;
+            } else {
+                cout << endl;
+            }
+
+            continue;
         }
 
         cout << "Invalid command" << endl << endl;
