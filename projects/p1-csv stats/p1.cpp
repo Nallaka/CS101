@@ -262,7 +262,7 @@ int main(int argc, char* argv[]) {
 
                 for (int e = 1; e < entries; e++) {
                     for (int c2 = 0; c2 < columns; c2++) {
-                       if (data[e][c2] == search) {
+                       if (data[e][c2] == search || search.empty() && data[0][c2].empty()) {
                            if (!entryExists) {
                                for (int c = 0; c < columns; c++) {
                                    cout << setw(colWidth) << data[0][c];
