@@ -155,53 +155,239 @@ void printArray(string array[], int size) {
     for (int i = 0; i < size; i++)
         cout << array[i] << " ";
 }
+
 //Test Main
-int main() {
-    int arr2[] = {12, 11, 13, 5, 6, 7};
-    int arr[] = {12, 10, 13, 5, 6, 9, 25, 16};
+int main(int argc, char *argv[]) {
 
-    int arr_size = sizeof(arr) / sizeof(arr[0]);
-    int arr2_size = sizeof(arr2) / sizeof(arr2[0]);
+    string type = argv[1];
+
+    string path1 = argv[2];
+    string path2 = argv[3];
+
+    //cout << type << endl << path1 << endl << path2 << endl;
+
+    int file1Lines = 0;
+    int file2Lines = 0;
+
+    std::ifstream ifstream1(path1);
+    std::ifstream ifstream2(path2);
+
+    if (type == "i") {
+        int n;
+
+        while (!ifstream1.eof()) {
+            ifstream1 >> n;
+            //cout << n << endl;
+            file1Lines++;
+            //cout << "count: " << file1Lines << endl;
+        }
+
+        while (!ifstream2.eof()) {
+            ifstream2 >> n;
+            //cout << n << endl;
+            file2Lines++;
+            //cout << "count: " << file2Lines << endl;
+        }
+
+        int arr[file1Lines];
+        int arr2[file2Lines];
+
+        ifstream1.clear();
+        ifstream1.seekg(0, std::ios::beg);
+
+        ifstream2.clear();
+        ifstream2.seekg(0, std::ios::beg);
+
+        int i = 0;
+        while (!ifstream1.eof()) {
+            ifstream1 >> n;
+            arr[i] = n;
+            //cout << arr[i] << " ";
+            i++;
+        }
+
+        int j = 0;
+        while (!ifstream2.eof()) {
+            ifstream2 >> n;
+            arr2[j] = n;
+            //cout << arr2[j] << " ";
+            j++;
+        }
 
 
-    cout << "Given array is \n";
-    printArray(arr, arr_size);
+        int arr_size = sizeof(arr) / sizeof(arr[0]);
+        int arr2_size = sizeof(arr2) / sizeof(arr2[0]);
 
-    mergeSort(arr, 0, arr_size - 1);
 
-    cout << "\nSorted array is \n";
-    printArray(arr, arr_size);
+        cout << "Given array is \n";
+        printArray(arr, arr_size);
 
-    cout << endl << "Given array is \n";
-    printArray(arr2, arr2_size);
+        mergeSort(arr, 0, arr_size - 1);
 
-    mergeSort(arr2, 0, arr2_size - 1);
+        cout << "\nSorted array is \n";
+        printArray(arr, arr_size);
 
-    cout << "\nSorted array is \n";
-    printArray(arr2, arr2_size);
+        cout << endl << "Given array is \n";
+        printArray(arr2, arr2_size);
+        mergeSort(arr2, 0, arr2_size - 1);
 
-    cout << endl << "Numbers in Both: " << endl;
+        cout << "\nSorted array is \n";
+        printArray(arr2, arr2_size);
 
-    if (arr_size < arr2_size) {
-        for (int i: arr) {
-            if (binarySearch(arr2, 0, arr2_size, i) != -1) {
-                cout << arr[binarySearch(arr2, 0, arr2_size, i)] << endl;
+        cout << endl;
+
+        //cout << endl << "arr size: " << arr_size <<  endl << "arr2 size: " << arr2_size << endl;
+
+        //cout << arr2[binarySearch(arr2, 0, arr2_size, -8)];
+        if (arr_size < arr2_size) {
+            for (int i = 0; i < arr_size; i++) {
+                int w = arr[i];
+                if (arr[i] != arr[i-1]) {
+                    if (binarySearch(arr2, 0, arr2_size, w) != -1) {
+                        cout << arr2[binarySearch(arr2, 0, arr2_size, w)] << endl;
+                    }
+                }
+            }
+            /*for (int i: arr) {
+                if (binarySearch(arr2, 0, arr2_size, i) != -1) {
+                    cout << arr2[binarySearch(arr2, 0, arr2_size, i)] << endl;
+                }
+            }*/
+        } else if (arr2_size < arr_size) {
+            for (int i = 0; i < arr2_size; i++) {
+                int w = arr2[i];
+                if (arr2[i] != arr2[i-1]) {
+                    if (binarySearch(arr, 0, arr_size, w) != -1) {
+                        cout << arr[binarySearch(arr, 0, arr_size, w)] << endl;
+                    }
+                }
+            }
+            /*for (int i: arr2) {
+                if (binarySearch(arr, 0, arr_size, i) != -1) {
+                    cout << arr[binarySearch(arr, 0, arr_size, i)] << endl;
+                }
+            }*/
+        } else if (arr_size == arr2_size) {
+            for (int i = 0; i < arr_size; i++) {
+                int w = arr[i];
+                if (arr[i] != arr[i-1]) {
+                    if (binarySearch(arr2, 0, arr2_size, w) != -1) {
+                        cout << arr2[binarySearch(arr2, 0, arr2_size, w)] << endl;
+                    }
+                }
+            }
+            /*for (int i: arr) {
+                if (binarySearch(arr2, 0, arr2_size, i) != -1) {
+                    cout << arr[binarySearch(arr2, 0, arr2_size, i)] << endl;
+                }
+            }*/
+        }
+    } else if (type == "s") {
+        string n;
+
+        while (ifstream1 >> n) {
+            if (!n.empty()) {
+                //cout << n << endl;
+                file1Lines++;
+                //cout << "count: " << file1Lines << endl;
             }
         }
-    } else if (arr2_size < arr_size) {
-        for (int i: arr2) {
-            if (binarySearch(arr, 0, arr_size, i) != -1) {
-                cout << arr2[binarySearch(arr, 0, arr_size, i)] << endl;
+
+        while (ifstream2 >> n) {
+            if (!n.empty()) {
+                //cout << n << endl;
+                file2Lines++;
+                //cout << "count: " << file2Lines << endl;
             }
         }
-    } else if (arr_size == arr2_size) {
-        for (int i: arr) {
-            if (binarySearch(arr2, 0, arr2_size, i) != -1) {
-                cout << arr[binarySearch(arr2, 0, arr2_size, i)] << endl;
+
+        string arr[file1Lines];
+        string arr2[file2Lines];
+
+        ifstream1.clear();
+        ifstream1.seekg(0, std::ios::beg);
+
+        ifstream2.clear();
+        ifstream2.seekg(0, std::ios::beg);
+
+        int i = 0;
+        while (ifstream1 >> n) {
+            arr[i] = n;
+            //cout << arr[i] << " ";
+            i++;
+        }
+
+        //cout << endl;
+        int j = 0;
+        while (ifstream2 >> n) {
+            arr2[j] = n;
+            //cout << arr2[j] << " ";
+            j++;
+        }
+
+        int arr_size = sizeof(arr) / sizeof(arr[0]);
+        int arr2_size = sizeof(arr2) / sizeof(arr2[0]);
+
+
+        cout << "Given array is \n";
+        printArray(arr, arr_size);
+
+        mergeSort(arr, 0, arr_size - 1);
+
+        cout << "\nSorted array is \n";
+        printArray(arr, arr_size);
+
+        cout << endl << "Given array is \n";
+        printArray(arr2, arr2_size);
+
+        mergeSort(arr2, 0, arr2_size - 1);
+
+        cout << "\nSorted array is \n";
+        printArray(arr2, arr2_size);
+
+        //cout << endl << "arr size: " << arr_size <<  endl << "arr2 size: " << arr2_size << endl;
+
+        //cout << arr2[binarySearch(arr2, 0, arr2_size, -8)];
+        //cout << endl;
+        if (arr_size < arr2_size) {
+            for (int i = 0; i < arr_size; i++) {
+                string w = arr[i];
+                if (arr[i] != arr[i-1]) {
+                    if (binarySearch(arr2, 0, arr2_size, w) != -1) {
+                        cout << arr2[binarySearch(arr2, 0, arr2_size, w)] << endl;
+                    }
+                }
+            }
+            /*for (string i: arr) {
+                if (binarySearch(arr2, 0, arr2_size, i) != -1) {
+                    cout << arr2[binarySearch(arr2, 0, arr2_size, i)] << endl;
+                }
+            }*/
+        } else if (arr2_size < arr_size) {
+            for (int i = 0; i < arr2_size; i++) {
+                string w = arr2[i];
+                if (arr2[i] != arr2[i-1]) {
+                    if (binarySearch(arr, 0, arr_size, w) != -1) {
+                        cout << arr[binarySearch(arr, 0, arr_size, w)] << endl;
+                    }
+                }
+            }
+            /*for (string i: arr2) {
+                if (binarySearch(arr, 0, arr_size, i) != -1) {
+                    cout << arr[binarySearch(arr, 0, arr_size, i)] << endl;
+                }
+            }*/
+        } else if (arr_size == arr2_size) {
+            for (int i = 0; i < arr_size; i++) {
+                string w = arr[i];
+                if (arr[i] != arr[i-1]) {
+                    if (binarySearch(arr2, 0, arr2_size, w) != -1) {
+                        cout << arr2[binarySearch(arr2, 0, arr2_size, w)] << endl;
+                    }
+                }
             }
         }
     }
-
     return 0;
 }
 
