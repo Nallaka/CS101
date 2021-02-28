@@ -1,5 +1,5 @@
 //
-// Created by mithu on 2/17/2021.
+// Created by mithu on 2/28/2021.
 //
 
 #include <iostream>
@@ -10,165 +10,203 @@
 
 using namespace std;
 
-void quickSort(int array[], int left, int right, int length) {
-    int i = left, j = right, tmp;
+void mergeCall(int array[], int left, int middle, int right) {
+    int num1 = middle - left + 1;
+    int num2 = right - middle;
 
-    int pivot = array[(left+right) / 2];
+    int L[num1], R[num2];
 
-    while (i <= j) {
-        while (array[i < pivot]) {
-            i ++;
-        }
+    for (int i = 0; i < num2; i++) {
+        R[i] = array[middle + 1 + i];
+    }
+    for (int j = 0; j < num1; j++) {
+        L[j] = array[left + j];
+    }
 
-        while (array[j] > pivot) {
-            j--;
-        }
+    int i = 0;
+    int j = 0;
+    int k = left;
 
-        if (i <= j) {
-            tmp = array[i];
-            array[i] = array[j];
-            array[j] = tmp;
+    while (i < num1 && j < num2) {
+        if (L[i] <= R[j]) {
+            array[k] = L[i];
             i++;
+        } else {
+            array[k] = R[j];
             j++;
         }
+        k++;
     }
 
-    if (left < j) {
-        quickSort(array, left, j, length);
+    while (i < num1) {
+        array[k] = L[i];
+        i++;
+        k++;
     }
 
-    if (i < right) {
-        quickSort(array, i, right, length);
+    while (j < num2) {
+        array[k] = R[j];
+        j++;
+        k++;
     }
 
-    for (i = 0; i < length; i++)
-        cout << array[i] << " ";
-    cout << endl;
 }
 
-/*
-void sort(int array[], int length) {
-    if (length <= 1) {
+void mergeSort(int array[], int left, int right) {
+    if (left >= right) {
         return;
     }
-
-    int *array1 = new int[length / 2];
-    int *array2 = new int[length-(length/2)];
-
-    for (int i = 0; i < length/2; i++) {
-        array1[i] = array[i];
-    }
-
-    for (int i = length/2; i < length; i++) {
-        array2[i-length/2] = array[1];
-    }
-
-    sort(array1, length/2);
-    sort(array2, length-length/2);
-
-    mergeS(array, array1, array2, length);
-
+    int m = left + (right - left) / 2;
+    mergeSort(array, left, m);
+    mergeSort(array, m + 1, right);
+    mergeCall(array, left, m, right);
 }
 
-void mergeS(int &array, int &array1, int &array2, int length) {
-    int length1 = length/2;
-    int length2 = length-length/2;
+int binarySearch(int arr[], int l, int r, int x) {
+    if (r >= l) {
+        int mid = l + (r - l) / 2;
 
-    int pos1 = 0;
-    int pos2 = 0;
-    int i = 0;
+        if (arr[mid] == x)
+            return mid;
 
-    while (pos1 < length1 && pos2 < length2) {
-        array[i++] = array1[pos1] < array2[pos2] ? array1[pos1++] : array2[pos2++];
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid - 1, x);
+
+        return binarySearch(arr, mid + 1, r, x);
     }
 
-    while (pos1 < length1) {
-        array[i++] = array1[pos1++];
-    }
-
-    while (pos2 < length2) {
-        array[i++] = array2[pos2++];
-    }
+    return -1;
 }
-*/
-
-
-/*void swap(int* a, int* b) {
-    int t = *a;
-    *a = *b;
-    *b = t;
-}
-
-void swap(string* a, string* b) {
-    string t = *a;
-    *a = *b;
-    *b = t;
-}
-
-int partition (int array[], int low, int high) {
-    int i = low - 1;
-    int pivot = array[high];
-
-    for (int i2 = low; i2 < high; i2++) {
-        if (array[i2] < pivot) {
-            i2++;
-            swap(&array[i], &array[i2]);
-        }
-    }
-
-    swap(&array[i+1], &array[high]);
-
-    return i + 1;
-}
-
-int partition (string array[], int low, int high) {
-    int i = low - 1;
-    string pivot = array[high];
-
-    for (int i2 = low; i2 < high; i2++) {
-        if (array[i2] < pivot) {
-            i2++;
-            swap(&array[i], &array[i2]);
-        }
-    }
-
-    swap(&array[i+1], &array[high]);
-
-    return i + 1;
-}
-
-void quickSort(int array[], int low, int high) {
-    if (low < high) {
-        int partitionIndex = partition(array, low, high);
-
-        quickSort(array, low, partitionIndex - 1);
-        quickSort(array, partitionIndex + 1, high);
-    }
-}
-
-void quickSort(string array[], int low, int high) {
-    if (low < high) {
-        int partitionIndex = partition(array, low, high);
-
-        quickSort(array, low, partitionIndex - 1);
-        quickSort(array, partitionIndex + 1, high);
-    }
-}*/
 
 void printArray(int array[], int size) {
-    int i;
-    for (i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
         cout << array[i] << " ";
-    cout << endl;
+}
+
+void mergeCall(string array[], int left, int middle, int right) {
+    int num1 = middle - left + 1;
+    int num2 = right - middle;
+
+    string L[num1], R[num2];
+
+    for (int i = 0; i < num2; i++) {
+        R[i] = array[middle + 1 + i];
+    }
+    for (int j = 0; j < num1; j++) {
+        L[j] = array[left + j];
+    }
+
+    int i = 0;
+    int j = 0;
+    int k = left;
+
+    while (i < num1 && j < num2) {
+        if (L[i] <= R[j]) {
+            array[k] = L[i];
+            i++;
+        } else {
+            array[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < num1) {
+        array[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < num2) {
+        array[k] = R[j];
+        j++;
+        k++;
+    }
+
+}
+
+void mergeSort(string array[], int left, int right) {
+    if (left >= right) {
+        return;
+    }
+    int m = left + (right - left) / 2;
+    mergeSort(array, left, m);
+    mergeSort(array, m + 1, right);
+    mergeCall(array, left, m, right);
+}
+
+int binarySearch(string arr[], int l, int r, string x) {
+    if (r >= l) {
+        int mid = l + (r - l) / 2;
+
+        if (arr[mid] == x)
+            return mid;
+
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid - 1, x);
+
+        return binarySearch(arr, mid + 1, r, x);
+    }
+
+    return -1;
 }
 
 void printArray(string array[], int size) {
-    int i;
-    for (i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
         cout << array[i] << " ";
-    cout << endl;
+}
+//Test Main
+int main() {
+    int arr2[] = {12, 11, 13, 5, 6, 7};
+    int arr[] = {12, 10, 13, 5, 6, 9, 25, 16};
+
+    int arr_size = sizeof(arr) / sizeof(arr[0]);
+    int arr2_size = sizeof(arr2) / sizeof(arr2[0]);
+
+
+    cout << "Given array is \n";
+    printArray(arr, arr_size);
+
+    mergeSort(arr, 0, arr_size - 1);
+
+    cout << "\nSorted array is \n";
+    printArray(arr, arr_size);
+
+    cout << endl << "Given array is \n";
+    printArray(arr2, arr2_size);
+
+    mergeSort(arr2, 0, arr2_size - 1);
+
+    cout << "\nSorted array is \n";
+    printArray(arr2, arr2_size);
+
+    cout << endl << "Numbers in Both: " << endl;
+
+    if (arr_size < arr2_size) {
+        for (int i: arr) {
+            if (binarySearch(arr2, 0, arr2_size, i) != -1) {
+                cout << arr[binarySearch(arr2, 0, arr2_size, i)] << endl;
+            }
+        }
+    } else if (arr2_size < arr_size) {
+        for (int i: arr2) {
+            if (binarySearch(arr, 0, arr_size, i) != -1) {
+                cout << arr2[binarySearch(arr, 0, arr_size, i)] << endl;
+            }
+        }
+    } else if (arr_size == arr2_size) {
+        for (int i: arr) {
+            if (binarySearch(arr2, 0, arr2_size, i) != -1) {
+                cout << arr[binarySearch(arr2, 0, arr2_size, i)] << endl;
+            }
+        }
+    }
+
+    return 0;
 }
 
+
+/* File Reading Logic Main
 int main(int argc, char* argv[]) {
     string type = argv[1];
 
@@ -220,12 +258,12 @@ int main(int argc, char* argv[]) {
         }
 
         cout << "Before sort" << endl;
-        printArray(file1, file1Lines);
+        //printArray(file1, file1Lines);
 
         int n = file1Lines / 2;
 
         //sort(file1, file1Lines);
-        printArray(file1, file1Lines);
+        //printArray(file1, file1Lines);
 
     } else if (type == "i") {
         int num;
@@ -257,12 +295,18 @@ int main(int argc, char* argv[]) {
             file2[i] = num2;
         }
 
-        cout << "Before sort" << endl;
-        printArray(file1, file1Lines);
+        int arr_size = sizeof(file1) / sizeof(file1[0]);
 
-        quickSort(file1, 3, file1Lines, file1Lines);
-        printArray(file1, file1Lines);
+        cout << "Given array is \n";
+        printArray(file1, arr_size);
+
+        mergeSort(file1, 0, arr_size - 1);
+
+        cout << "\nSorted array is \n";
+        printArray(file1, arr_size);
+        return 0;
 
     }
 
 }
+*/
