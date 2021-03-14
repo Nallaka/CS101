@@ -22,17 +22,17 @@ Stack::Stack() {
 }
 
 void Stack::push(int value) {
-    store.insert(value, size());
+    store.insert(value, 0);
 }
 
 int Stack::pop() {
-    int value = store.at(size());
-    store.remove(size());
+    int value = store.at(0);
+    store.remove(0);
     return value;
 }
 
 int Stack::peek() {
-    return store.at(size());
+    return store.at(0);
 }
 
 int Stack::size() const {
@@ -51,6 +51,6 @@ void Stack::display(ostream &os) const {
 ostream &operator<<(ostream &os, const Stack &stack); // write the contents of the stack to the ostream
 
 ostream &operator<<(ostream &os, const Stack &stack) {
-    os << "Working btw";
+    //os << stack.store();
 }
 #endif

@@ -34,8 +34,8 @@ public:
 };
 
 Dll::Dll() {
-    head = nullptr;
-    _size = 0;
+    this->head = nullptr;
+    this->_size = 0;
 }
 
 Dll::Dll(const Dll &src) {
@@ -151,10 +151,18 @@ DllNode * Dll::ptrAt(int rank) const {
 
 void Dll::insert(int rank, int value) {
     if (rank > this->size()) {
-        throw IndexOutOfRangeException("insert(): Indec was outside the bounds of the linked list", rank);
+        throw IndexOutOfRangeException("insert(): Index was outside the bounds of the linked list", rank);
     }
     auto* newNode = new DllNode();
     newNode->value = value;
+
+    if (rank == 0 && this->size() == 0) {
+        this->head = newNode;
+        newNode->prev = nullptr;
+        newNode->next = nullptr;
+        _size++;
+        return;
+    }
 
     auto* currNode = this->ptrAt(rank);
     auto* prevNode = this->ptrAt(rank-1);
@@ -170,6 +178,7 @@ void Dll::insert(int rank, int value) {
         newNode->next = currNode;
         currNode->prev = newNode;
     }
+    _size++;
 }
 
 /*When inserting into a dll, rank 0 inserts at the front of the list and rank size()
@@ -182,9 +191,17 @@ When building a dll from an array, the array [ 0 1 2 ] should create the list 0 
 */
 int Dll::remove(int rank) {
     if (rank > this->size()-1) {
-        throw IndexOutOfRangeException("remove(): Indec was outside the bounds of the linked list", rank);
+        throw IndexOutOfRangeException("remove(): Index was outside the bounds of the linked list", rank);
     }
     auto* currNode = ptrAt(rank);
+    int val = currNode->value;
+
+    if (rank == 0 && this->size() == 1) {
+        head = nullptr;
+        delete currNode;
+        _size--;
+        return val;
+    }
 
     if (head == currNode) {
         head = currNode->next;
@@ -196,7 +213,7 @@ int Dll::remove(int rank) {
         currNode->next->prev = currNode->prev;
     }
     int value = currNode->value;
-    this->_size--;
+    _size--;
     delete currNode;
     return value;
 }
@@ -211,17 +228,17 @@ void Dll::clear() {
 
 void Dll::display(ostream &os) const {
     os << "[ ";
-    for (int i = 0; i < _size; i++) {
-        os << this->ptrAt(i)->value << " ";
+    if (!this->empty()) {
+        for (int i = 0; i < _size; i++) {
+            os << this->ptrAt(i)->value << " ";
+        }
     }
     os << "]" << endl;
 }
 
 //ostream &operator<<(ostream &os, const Dll &list); // write the contents of the list to the ostream
 ostream &operator<<(ostream &os, const Dll &list) {
-    for (int i = 0; i < list.size(); i++) {
-        os << list.ptrAt(i)->value << " ";
-    }
+    list.display(cout);
 }
 
 #endif
