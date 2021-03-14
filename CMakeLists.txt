@@ -4,4 +4,4 @@ project(cs101)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(cs101
-        "projects/p2-sorting-and-juxtaposition/p2.cpp")
+        "projects/p3-lists-and-stacks/p3.cpp")

@@ -20,6 +20,11 @@ public:
         /* Your code goes here */
     }
 
+    ~MyDynamicArray() {
+        cout << "In the destructor" << endl;
+        delete[] a;
+    }
+
     int &operator[](int i) {
         /* Your code goes here */
         if (i >= size || i < 0) {
@@ -74,6 +79,31 @@ public:
         delete a;
         a = new int[capacity = 2];
         size = 0;
+    }
+
+    MyDynamicArray& operator=(const MyDynamicArray& src) {
+        cout << "In the copy assignment operator" << endl;
+        int* deepCopy = new int[src.size];
+        for (int i = 0; i < src.size; i++) {
+            deepCopy[i] = src[i];
+        }
+
+        a = deepCopy;
+    }
+
+    MyDynamicArray(const MyDynamicArray & src) {
+        cout << "In the copy constructor" << endl;
+        a = new int a[src.size()];
+        size = 0;
+        capacity = src.size;
+        int* deepCopy = new int[src.size];
+        for (int i = 0; i < src.size; i++) {
+            deepCopy[i] = src[i];
+            if (src[i] != 0) {
+                size++
+            }
+        }
+        a = deepCopy;
     }
 };
 

@@ -133,6 +133,8 @@ void mergeSort(string array[], int left, int right) {
     mergeSort(array, left, m);
     mergeSort(array, m + 1, right);
     mergeCall(array, left, m, right);
+    //cout << endl;
+    //printArray(array, array->size());
 }
 
 int binarySearch(string arr[], int l, int r, string x) {
@@ -219,22 +221,22 @@ int main(int argc, char *argv[]) {
         int arr2_size = sizeof(arr2) / sizeof(arr2[0]);
 
 
-        cout << "Given array is \n";
-        printArray(arr, arr_size);
+/*        cout << "Given array is \n";
+        printArray(arr, arr_size);*/
 
         mergeSort(arr, 0, arr_size - 1);
 
-        cout << "\nSorted array is \n";
-        printArray(arr, arr_size);
+        /*cout << "\nSorted array is \n";
+        printArray(arr, arr_size);*/
 
-        cout << endl << "Given array is \n";
-        printArray(arr2, arr2_size);
+        /*cout << endl << "Given array is \n";
+        printArray(arr2, arr2_size);*/
         mergeSort(arr2, 0, arr2_size - 1);
 
-        cout << "\nSorted array is \n";
-        printArray(arr2, arr2_size);
+        /*cout << "\nSorted array is \n";
+        printArray(arr2, arr2_size);*/
 
-        cout << endl;
+        //cout << endl;
 
         //cout << endl << "arr size: " << arr_size <<  endl << "arr2 size: " << arr2_size << endl;
 
@@ -242,7 +244,7 @@ int main(int argc, char *argv[]) {
         if (arr_size < arr2_size) {
             for (int i = 0; i < arr_size; i++) {
                 int w = arr[i];
-                if (arr[i] != arr[i-1]) {
+                if (i == 0 || arr[i] != arr[i-1]) {
                     if (binarySearch(arr2, 0, arr2_size, w) != -1) {
                         cout << arr2[binarySearch(arr2, 0, arr2_size, w)] << endl;
                     }
@@ -256,7 +258,7 @@ int main(int argc, char *argv[]) {
         } else if (arr2_size < arr_size) {
             for (int i = 0; i < arr2_size; i++) {
                 int w = arr2[i];
-                if (arr2[i] != arr2[i-1]) {
+                if (i == 0 || arr2[i] != arr2[i-1]) {
                     if (binarySearch(arr, 0, arr_size, w) != -1) {
                         cout << arr[binarySearch(arr, 0, arr_size, w)] << endl;
                     }
@@ -270,7 +272,7 @@ int main(int argc, char *argv[]) {
         } else if (arr_size == arr2_size) {
             for (int i = 0; i < arr_size; i++) {
                 int w = arr[i];
-                if (arr[i] != arr[i-1]) {
+                if (i == 0 || arr[i] != arr[i-1]) {
                     if (binarySearch(arr2, 0, arr2_size, w) != -1) {
                         cout << arr2[binarySearch(arr2, 0, arr2_size, w)] << endl;
                     }
@@ -328,31 +330,33 @@ int main(int argc, char *argv[]) {
         int arr_size = sizeof(arr) / sizeof(arr[0]);
         int arr2_size = sizeof(arr2) / sizeof(arr2[0]);
 
-
-        cout << "Given array is \n";
-        printArray(arr, arr_size);
+        /*cout << "\nGiven array is \n";
+        printArray(arr, arr_size);*/
 
         mergeSort(arr, 0, arr_size - 1);
 
-        cout << "\nSorted array is \n";
-        printArray(arr, arr_size);
+        /*cout << "\nSorted array is \n";
+        printArray(arr, arr_size);*/
 
-        cout << endl << "Given array is \n";
-        printArray(arr2, arr2_size);
+        /*cout << endl << "Given array is \n";
+        printArray(arr2, arr2_size);*/
 
         mergeSort(arr2, 0, arr2_size - 1);
 
-        cout << "\nSorted array is \n";
-        printArray(arr2, arr2_size);
+        /*cout << "\nSorted array is \n";
+        printArray(arr2, arr2_size);*/
+
+        //cout << endl;
 
         //cout << endl << "arr size: " << arr_size <<  endl << "arr2 size: " << arr2_size << endl;
 
         //cout << arr2[binarySearch(arr2, 0, arr2_size, -8)];
         //cout << endl;
         if (arr_size < arr2_size) {
-            for (int i = 0; i < arr_size; i++) {
-                string w = arr[i];
-                if (arr[i] != arr[i-1]) {
+            for (int x = 0; x < arr_size; x++) {
+                string w = arr[x];
+                if (x == 0 || arr[x] != arr[x-1]) {
+                    //cout << "reaches";
                     if (binarySearch(arr2, 0, arr2_size, w) != -1) {
                         cout << arr2[binarySearch(arr2, 0, arr2_size, w)] << endl;
                     }
@@ -366,7 +370,7 @@ int main(int argc, char *argv[]) {
         } else if (arr2_size < arr_size) {
             for (int i = 0; i < arr2_size; i++) {
                 string w = arr2[i];
-                if (arr2[i] != arr2[i-1]) {
+                if (i == 0 || arr2[i] != arr2[i-1]) {
                     if (binarySearch(arr, 0, arr_size, w) != -1) {
                         cout << arr[binarySearch(arr, 0, arr_size, w)] << endl;
                     }
@@ -380,7 +384,7 @@ int main(int argc, char *argv[]) {
         } else if (arr_size == arr2_size) {
             for (int i = 0; i < arr_size; i++) {
                 string w = arr[i];
-                if (arr[i] != arr[i-1]) {
+                if (i == 0 || arr[i] != arr[i-1]) {
                     if (binarySearch(arr2, 0, arr2_size, w) != -1) {
                         cout << arr2[binarySearch(arr2, 0, arr2_size, w)] << endl;
                     }
@@ -390,109 +394,3 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
-
-
-/* File Reading Logic Main
-int main(int argc, char* argv[]) {
-    string type = argv[1];
-
-    string path1 = argv[2];
-    string path2 = argv[3];
-
-    int file1Lines = 0;
-    int file2Lines = 0;
-
-    std::ifstream ifstream1(path1);
-    std::ifstream ifstream2(path2);
-
-    if (type == "s") {
-        string word;
-        while (ifstream1 >> word) {
-            if (!word.empty()) {
-                file1Lines++;
-            }
-        }
-
-        string word2;
-        while (ifstream2 >> word) {
-            if (!word.empty()) {
-                file2Lines++;
-            }
-        }
-
-        string file1[file1Lines];
-        string file2[file2Lines];
-
-        ifstream1.clear();
-        ifstream1.seekg(0,std::ios::beg);
-
-        ifstream2.clear();
-        ifstream2.seekg(0,std::ios::beg);
-
-        for(int i = 0; i < file1Lines - 1; i++) {
-            ifstream1 >> word;
-            if (!word.empty()) {
-                file1[i] = word;
-            }
-        }
-
-        for(int i = 0; i < file2Lines - 1; i++) {
-            ifstream2 >> word;
-            if (!word.empty()) {
-                file2[i] = word;
-            }
-        }
-
-        cout << "Before sort" << endl;
-        //printArray(file1, file1Lines);
-
-        int n = file1Lines / 2;
-
-        //sort(file1, file1Lines);
-        //printArray(file1, file1Lines);
-
-    } else if (type == "i") {
-        int num;
-        while (ifstream1 >> num) {
-            file1Lines++;
-        }
-
-        int num2;
-        while (ifstream2 >> num2) {
-            file2Lines++;
-        }
-
-        int file1[file1Lines];
-        int file2[file2Lines];
-
-        ifstream1.clear();
-        ifstream1.seekg(0,std::ios::beg);
-
-        ifstream2.clear();
-        ifstream2.seekg(0,std::ios::beg);
-
-        for(int i = 0; i < file1Lines - 1; i++) {
-            ifstream1 >> num;
-            file1[i] = num;
-        }
-
-        for(int i = 0; i < file2Lines - 1; i++) {
-            ifstream2 >> num2;
-            file2[i] = num2;
-        }
-
-        int arr_size = sizeof(file1) / sizeof(file1[0]);
-
-        cout << "Given array is \n";
-        printArray(file1, arr_size);
-
-        mergeSort(file1, 0, arr_size - 1);
-
-        cout << "\nSorted array is \n";
-        printArray(file1, arr_size);
-        return 0;
-
-    }
-
-}
-*/

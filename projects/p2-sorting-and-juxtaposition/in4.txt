@@ -6,6 +6,4 @@ bird
 pig
 dog
 lion
-horse
-cat
 bird
