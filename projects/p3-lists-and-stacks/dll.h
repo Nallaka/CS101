@@ -226,18 +226,18 @@ void Dll::clear() {
 }
 
 void Dll::display(ostream &os) const {
-    DllNode *node = head;
     os << "[ ";
-    for (int i = 0; i < _size; i++) {
-        os << node->value << " ";
-        node = node->next;
+    if (!this->empty()) {
+        for (int i = 0; i < _size; i++) {
+            os << this->ptrAt(i)->value << " ";
+        }
     }
     os << "]";
 }
 
 //ostream &operator<<(ostream &os, const Dll &list); // write the contents of the list to the ostream
 ostream &operator<<(ostream &os, const Dll &list) {
-    list.display(cout);
+    list.display(os);
     return os;
 }
 
