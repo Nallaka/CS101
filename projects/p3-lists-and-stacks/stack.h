@@ -18,20 +18,26 @@ public:
 };
 
 Stack::Stack() {
-    store = Dll();
+    store.clear();
 }
 
 void Stack::push(int value) {
-    store.insert(value, 0);
+    store.insert(0, value);
 }
 
 int Stack::pop() {
+    if (this->empty()) {
+        throw InvalidOperationException("Stack empty.");
+    }
     int value = store.at(0);
     store.remove(0);
     return value;
 }
 
 int Stack::peek() {
+    if (this->empty()) {
+        throw InvalidOperationException("Stack empty.");
+    }
     return store.at(0);
 }
 
@@ -44,13 +50,20 @@ bool Stack::empty() const {
 }
 
 void Stack::display(ostream &os) const {
-
+    os << "[ ";
+    if (!this->empty()) {
+        for (int i = 0; i < store.size(); i++) {
+            os << this->store.ptrAt(i)->value << " ";
+        }
+    }
+    os << "]";
 }
 
 
 ostream &operator<<(ostream &os, const Stack &stack); // write the contents of the stack to the ostream
 
 ostream &operator<<(ostream &os, const Stack &stack) {
-    //os << stack.store();
+    stack.display(os);
+    return os;
 }
 #endif

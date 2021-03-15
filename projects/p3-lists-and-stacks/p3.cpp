@@ -18,7 +18,6 @@ int main() {
             int rank;
             int val;
             Dll list;
-            cout << "reach" << endl;
             while (1) {
                 cout << list << endl << endl;
                 cin >> choice;
@@ -45,6 +44,18 @@ int main() {
                 }
                 else if (choice == "e") {
                     cout << "empty = " << boolalpha << list.empty() << endl;
+                }
+                else if (choice == "copy") {
+
+                    Dll newDll = list;
+                    cout << "reach" << endl;
+                    newDll.display(cout);
+                    cout << list << endl;
+                    list.clear();
+                    newDll.insert(0, 15);
+                    cout << newDll;
+                    cout << list;
+                    cout << "end" << endl;
                 }
             }
         }
