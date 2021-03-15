@@ -97,21 +97,8 @@ Dll &Dll::operator=(const Dll &src) {
 }
 
 Dll::~Dll() {
-    auto* curr = new DllNode;
-    for (int i = 0; i < _size; i++) {
-        auto* toDel = new DllNode();
-        if (i == 0) {
-            curr = head;
-            toDel = head;
-        } else {
-            toDel = curr;
-            curr = curr->next;
-        }
-        delete toDel;
-    }
-    delete head;
-    _size = 0;
-    delete this;
+    this->clear();
+    head = nullptr;
 }
 
 bool Dll::empty() const {
