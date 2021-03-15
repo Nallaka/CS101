@@ -8,86 +8,37 @@ using namespace std;
 
 int main() {
     try {
-        string ch;
-        cout << "Enter:\n\t- 'l' for list\n\t- 's' for stack\n\t- 'quit' to quit" << endl;
-        cin >> ch;
+        Dll dll;
+        cout << "Default Constructor" << endl;
+        cout << "Empty" << boolalpha << dll.empty() << endl;
+        cout << "Size" << dll.size() << endl;
+        cout << dll << endl << endl;
 
-        if (ch == "l") {
-            cout << "Enter:\n\t- 'i #r #v' to insert\n\t- 'r #' to remove\n\t- 'a #' to at\n\t- 's' to get the size\n\t- 'e' to check emptiness\n\t- 'c' to clear\n\t- 'q' to quit" << endl;
-            string choice;
-            int rank;
-            int val;
-            Dll list;
-            while (1) {
-                cout << list << endl << endl;
-                cin >> choice;
-                if (choice == "q") {
-                    break;
-                }
-                if (choice == "i") {
-                    cin >> rank >> val;
-                    list.insert(rank, val);
-                }
-                else if (choice == "r") {
-                    cin >> rank;
-                    cout << "removed = " << list.remove(rank) << endl;
-                }
-                else if (choice == "a") {
-                    cin >> rank;
-                    cout << "at = " << list.at(rank) << endl;
-                }
-                else if (choice == "s") {
-                    cout << "size = " << list.size() << endl;
-                }
-                else if (choice == "c") {
-                    list.clear();
-                }
-                else if (choice == "e") {
-                    cout << "empty = " << boolalpha << list.empty() << endl;
-                }
-                else if (choice == "copy") {
+        dll.insert(0, 10);
+        dll.insert(0, 20);
+        dll.insert(0, 30);
 
-                    Dll newDll = list;
-                    cout << "reach" << endl;
-                    newDll.display(cout);
-                    cout << list << endl;
-                    list.clear();
-                    newDll.insert(0, 15);
-                    cout << newDll;
-                    cout << list;
-                    cout << "end" << endl;
-                }
-            }
-        }
-        else if (ch == "s") {
-            cout << "Enter:\n\t- 'push #' to push\n\t- 'pop' to pop\n\t- 'peek' to peek\n\t- 'size' to get the size\n\t- 'empty' to check emptiness\n\t- 'q' to quit" << endl;
-            string choice;
-            int val;
-            Stack stack;
-            while (1) {
-                cout << stack << endl << endl;
-                cin >> choice;
-                if (choice == "q") {
-                    break;
-                }
-                if (choice == "push") {
-                    cin >> val;
-                    stack.push(val);
-                }
-                else if (choice == "pop") {
-                    cout << "popped " << stack.pop() << endl;
-                }
-                else if (choice == "peek") {
-                    cout << "peeked " << stack.peek() << endl;
-                }
-                else if (choice == "size") {
-                    cout << "size = " << stack.size() << endl;
-                }
-                else if (choice == "empty") {
-                    cout << "empty = " << boolalpha << stack.empty() << endl;
-                }
-            }
-        }
+        cout << "Copy" << endl;
+        Dll newDll = Dll(dll);
+        cout << dll << endl;
+        cout << newDll << endl;
+        dll.remove(0);
+        cout << dll << endl;
+        cout << newDll << endl;
+
+        int testarr[5] = {1, 2, 3, 4, 5};
+
+        Dll newDll1 = Dll(testarr, 5);
+        cout << "Array"<< endl;
+        cout << newDll1 << endl;
+        cout << newDll1.size() << endl;
+
+        cout << "Assignment Operator" << endl;
+        cout << "newDll1 before " << newDll1 << " Size: " << newDll1.size() << endl;
+        newDll1 = newDll;
+        cout << "newDll " << newDll << endl;
+        cout << "newDll1 After " << newDll1 << " Size: " << newDll1.size() << endl;
+
     }
     catch (InvalidOperationException &e) {
         cout << e.getMessage() << endl;

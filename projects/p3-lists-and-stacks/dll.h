@@ -25,7 +25,8 @@ public:
     int size() const; // return how many items are in the list in O(1)
 
     int &at(int rank); // return a reference to the value of the list at a rank/index
-    DllNode * ptrAt(int rank) const;
+    DllNode *ptrAt(int rank) const;
+
     void insert(int rank, int value); // insert a value at the rank/index
     int remove(int rank); // remove the node at the rank/index and return its value
 
@@ -40,10 +41,10 @@ Dll::Dll() {
 
 Dll::Dll(const Dll &src) {
     head = nullptr;
-    auto* tail = head;
+    auto *tail = head;
     _size = src.size();
     for (int i = 0; i < _size; i++) {
-        auto* newNode = new DllNode();
+        auto *newNode = new DllNode();
         newNode->value = src.ptrAt(i)->value;
         if (head == nullptr) {
             head = newNode;
@@ -59,10 +60,10 @@ Dll::Dll(const Dll &src) {
 
 Dll::Dll(const int *arr, int size) {
     head = nullptr;
-    auto* tail = head;
+    auto *tail = head;
     _size = size;
     for (int i = 0; i < size; i++) {
-        auto* newNode = new DllNode();
+        auto *newNode = new DllNode();
         newNode->value = arr[i];
         if (head == nullptr) {
             head = newNode;
@@ -78,10 +79,10 @@ Dll::Dll(const int *arr, int size) {
 
 Dll &Dll::operator=(const Dll &src) {
     this->clear();
-    auto* tail = head;
+    auto *tail = head;
     _size = src.size();
     for (int i = 0; i < _size; i++) {
-        auto* newNode = new DllNode();
+        auto *newNode = new DllNode();
         newNode->value = src.ptrAt(i)->value;
         if (head == nullptr) {
             head = newNode;
@@ -110,8 +111,8 @@ int Dll::size() const {
 }
 
 int &Dll::at(int rank) {
-    auto* curr = new DllNode;
-    if (rank > this->size()-1 || rank < 0) {
+    auto *curr = new DllNode;
+    if (rank > this->size() - 1 || rank < 0) {
         throw IndexOutOfRangeException("at(): Indec was outside the bounds of the linked list.", rank);
     }
     for (int i = 0; i <= rank; i++) {
@@ -124,8 +125,8 @@ int &Dll::at(int rank) {
     return curr->value;
 }
 
-DllNode * Dll::ptrAt(int rank) const {
-    auto* curr = new DllNode;
+DllNode *Dll::ptrAt(int rank) const {
+    auto *curr = new DllNode;
     for (int i = 0; i <= rank; i++) {
         if (i == 0) {
             curr = head;
@@ -137,12 +138,12 @@ DllNode * Dll::ptrAt(int rank) const {
 }
 
 void Dll::insert(int rank, int value) {
-   if (rank > this->size() || rank < 0) {
-       throw IndexOutOfRangeException("insert(): Index was outside the bounds of the linked list.", rank);
-   }
+    if (rank > this->size() || rank < 0) {
+        throw IndexOutOfRangeException("insert(): Index was outside the bounds of the linked list.", rank);
+    }
 
 
-    auto* newNode = new DllNode();
+    auto *newNode = new DllNode();
     newNode->value = value;
 
     /*if (rank == 0 && this->size() == 0) {
@@ -158,18 +159,18 @@ void Dll::insert(int rank, int value) {
         newNode->prev = nullptr;
         newNode->next = nullptr;
     } else if (rank == size()) {
-        auto* prevNode = this->ptrAt(rank-1);
+        auto *prevNode = this->ptrAt(rank - 1);
         prevNode->next = newNode;
         newNode->prev = prevNode;
         newNode->next = nullptr;
-    } else if(this->ptrAt(rank)->prev == nullptr) {
+    } else if (this->ptrAt(rank)->prev == nullptr) {
         this->ptrAt(rank)->prev = newNode;
         newNode->next = this->ptrAt(rank);
         newNode->prev = nullptr;
         this->head = newNode;
-    }  else if (rank < size()) {
-        auto* currNode = this->ptrAt(rank);
-        auto* prevNode = this->ptrAt(rank-1);
+    } else if (rank < size()) {
+        auto *currNode = this->ptrAt(rank);
+        auto *prevNode = this->ptrAt(rank - 1);
         prevNode->next = newNode;
         newNode->prev = prevNode;
         newNode->next = currNode;
@@ -188,11 +189,11 @@ When removing from a dll, rank 0 removes from the front of the list and rank siz
 When building a dll from an array, the array [ 0 1 2 ] should create the list 0 -> 1 -> 2.
 */
 int Dll::remove(int rank) {
-    if (rank > this->size()-1 || rank < 0) {
+    if (rank > this->size() - 1 || rank < 0) {
         throw IndexOutOfRangeException("remove(): Index was outside the bounds of the linked list", rank);
     }
 
-    auto* currNode = ptrAt(rank);
+    auto *currNode = ptrAt(rank);
     int val = currNode->value;
 
     if (rank == 0 && this->size() == 1) {
@@ -225,11 +226,11 @@ void Dll::clear() {
 }
 
 void Dll::display(ostream &os) const {
+    DllNode *node = head;
     os << "[ ";
-    if (!this->empty()) {
-        for (int i = 0; i < _size; i++) {
-            os << this->ptrAt(i)->value << " ";
-        }
+    for (int i = 0; i < _size; i++) {
+        os << node->value << " ";
+        node = node->next;
     }
     os << "]";
 }
