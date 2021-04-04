@@ -4,4 +4,4 @@ project(cs101)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(cs101
-        "projects/p3-lists-and-stacks/p3.cpp")
+        "projects/p4-hashtables/p5test.cpp")
