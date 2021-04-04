@@ -136,20 +136,6 @@ int main(int argc, char **argv) {
 
     }
 
-    for (auto p: table.table[38]) {
-        for (auto q: p) {
-            cout << q << " ";
-        }
-        cout << endl;
-    }
-
-    /*for (auto p: table.table[7]) {
-        for (auto q: p) {
-            cout << q << " ";
-        }
-        cout << endl;
-    }*/
-
     cout << "Commands:" << endl << "\tprint" << endl << "\tlookup <key>" << endl << "\tquit" << endl;
     string cmd, val;
     while (1) {
@@ -159,10 +145,38 @@ int main(int argc, char **argv) {
             break;
         }
         else if (cmd == "print") {
+            //TODO MUST COMPLETE TO EXAMPLE
+            for (int i = 0; i < tableSize; i++) {
+                if (!table.table[i].empty()) {
+                    cout << i << ": "  << endl;
+                    vector<string> covered;
+                    for (auto e: table.table[i]) {
+                        if (find(covered.begin(), covered.end(), e.at(keyIndex)) == covered.end()) {
+                            cout << e.at(keyIndex) << " (" << table.table[i].size() << "),";
+                        }
+
+                    }
+                    cout << endl;
+                }
+            }
         }
         else if (cmd == "lookup") {
             getVal(cin, val);
+            unsigned long hash = djb2(val) % (tableSize);
+            int hashInt = (int) hash;
 
+            if (!table.table[hashInt].empty()) {
+                cout << "Id,FirstName,LastName,Email,Phone,City,State,PostalCode" << endl;
+                for (const auto& p: table.table[hashInt]) {
+                    if (p.at(keyIndex) == val) {
+                        cout << p.at(idIndex) << "," << p.at(firstNameIndex) << ","
+                            << p.at(lastNameIndex) << "," << p.at(emailIndex) << "," << p.at(phoneIndex)
+                            << "," << p.at(cityIndex) << "," << p.at(stateIndex) << "," << p.at(postalCodeIndex) << endl;
+                    }
+                }
+            } else {
+                cout << "No results" << endl;
+            }
         }
         else {
             getline(cin, val);
